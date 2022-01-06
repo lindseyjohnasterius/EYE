@@ -14,10 +14,31 @@ class EYE extends HTMLElement {
       this.initVideo();
     })
 
+    const div_style = document.createElement('div-style');
+
+
     this.video = document.createElement('video');
     this.video.width = this.width;
     this.video.height = this.height;
-    this.appendChild(this.video);
+    div_style.appendChild(this.video);
+    this.appendChild(div_style)
+
+    this.video.addEventListener('click', () => {
+      if(this.video.paused){
+        this.video.play()
+      } else {
+        this.video.pause()
+      }
+    })
+
+    window.addEventListener("resize", ()=>this.handleResize());
+
+  }
+
+  handleResize(){
+    this.getSize()
+    this.initVideo()
+
   }
 
   initVideo(){
@@ -30,6 +51,9 @@ class EYE extends HTMLElement {
   }
 
   async getMedia(){
+    if(this.stream){
+      this.stream = null
+    }
     const constraints = {
       audio: false,
       video: {

@@ -34,10 +34,26 @@ class DivStyle extends HTMLElement {
       this.form.removeEventListener('mousemove', this.handleChange)
     })
 
+    this.form.addEventListener('click', () => {
+      this.handleChange()
+    })
+
   }
 
   handleChange(){
-    console.log(this)
+    const inputs = this.querySelectorAll('input')
+    const values = [...inputs].map(input => input.value !== 'on' ? input.value : input.checked)
+    const div_style = this.closest('div-style')
+    const video = div_style.querySelector('video')
+
+    video.style.filter = 
+    `brightness(${values[0] * 2}%) contrast(${values[1] * 2}%) saturate(${values[2] * 2}%)`
+
+    const translation = values[3] ? -1 : 1
+    video.style.transform = `
+      scaleX(${translation})
+    `
+
   }
 
   static get observedAttributes() {

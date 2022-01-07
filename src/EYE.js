@@ -18,8 +18,8 @@ class EYE extends HTMLElement {
   }
 
   handleResize(){
-    this.getSize()
-    this.initVideo()
+    // this.getSize()
+    // this.initVideo()
 
   }
 

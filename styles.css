@@ -2,20 +2,18 @@
 
 div-style details form{
   position:  absolute;
-  left: 1em;
+  left: 0em;
   top: 1em;
+  padding: 2em;
   min-width: 30em;
-  height: 100vh;
   background-color: rgba(0,0,0,0.5);
   border: 1px solid rgba(0,0,0,0.8);
-
  }
 
  div-style details {
   position: absolute;
   left: 1em;
   top: 1em;
-  content: 'SETTINGS';
  }
 
  div-style form label {

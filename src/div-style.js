@@ -1,5 +1,4 @@
 
-import { getNewID } from './helpers.js'
 
 
 class DivStyle extends HTMLElement {

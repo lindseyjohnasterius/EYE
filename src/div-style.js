@@ -1,5 +1,5 @@
 
-
+import { getNewID } from './helpers.js'
 
 
 class DivStyle extends HTMLElement {
@@ -23,6 +23,9 @@ class DivStyle extends HTMLElement {
 
     container.appendChild(this.form)
     this.appendChild(container)
+    const label = document.createElement('summary')
+    label.innerText = 'SETTINGS'
+    container.appendChild(label)
   
 
     this.form.addEventListener('mousedown', () => {

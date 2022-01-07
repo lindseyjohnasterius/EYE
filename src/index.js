@@ -1,2 +1,2 @@
-import "./div-style.js"
-import "./EYE.js"
+import "./div-style.js";
+import "./EYE.js";

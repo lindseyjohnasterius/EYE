@@ -6,13 +6,32 @@ console.log('EYE')
 
 class EYE extends HTMLElement {
   connectedCallback(){
-    this.getSize();
-    const available_devices = document.createElement('available-devices');
-    this.appendChild(available_devices);
-    available_devices.addEventListener('DEVICE SELECTED', (e) => {
-      this.selected_device = e.detail;
+
+    const connect_button = document.createElement('button')
+    connect_button.innerText = 'CONNECT'
+    this.appendChild(connect_button)
+    connect_button.addEventListener('click',()=>{
       this.initVideo();
+      connect_button.remove()
     })
+
+  }
+
+  handleResize(){
+    this.getSize()
+    this.initVideo()
+
+  }
+
+  initVideo(){
+    this.getSize();
+
+    // const available_devices = document.createElement('available-devices');
+    // this.appendChild(available_devices);
+    // available_devices.addEventListener('DEVICE SELECTED', (e) => {
+    //   this.selected_device = e.detail;
+    //   this.initVideo();
+    // })
 
     const div_style = document.createElement('div-style');
 
@@ -31,18 +50,11 @@ class EYE extends HTMLElement {
       }
     })
 
+    this.getMedia();
+
+
     window.addEventListener("resize", ()=>this.handleResize());
 
-  }
-
-  handleResize(){
-    this.getSize()
-    this.initVideo()
-
-  }
-
-  initVideo(){
-    this.getMedia();
   }
 
   getSize(){

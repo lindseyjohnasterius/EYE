@@ -30,12 +30,18 @@ class DivStyle extends HTMLElement {
     })
 
     this.form.addEventListener('mouseup', () => {
-      console.log('mouse_up')
       this.form.removeEventListener('mousemove', this.handleChange)
     })
 
-    this.form.addEventListener('click', () => {
-      this.handleChange()
+    this.form.addEventListener('click', this.handleChange)
+
+
+    this.form.addEventListener('ontouchstart', () => {
+      this.form.addEventListener('ontouchmove', this.handleChange)
+    })
+
+    this.form.addEventListener('ontouchend', () => {
+      this.form.removeEventListener('ontouchmove', this.handleChange)
     })
 
   }

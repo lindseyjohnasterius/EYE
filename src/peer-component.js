@@ -8,12 +8,13 @@ class PeerComponent extends HTMLElement {
     const values = getURLValues()
     console.log(values)
     if(values.peer_id){
-      this.peer.connect(id)
+      const stream = document.querySelector('e-y-e').stream
+      this.peer.call(id, stream)
     } else {
 
     }
 
-
+    
   }
 }
 

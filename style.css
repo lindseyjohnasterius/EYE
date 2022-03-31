@@ -1,0 +1,490 @@
+
+/*
+
+  *** begin ascii art ***
+
+            CCCCCCCCCCCCC   SSSSSSSSSSSSSSS    SSSSSSSSSSSSSSS
+         CCC::::::::::::C SS:::::::::::::::S SS:::::::::::::::S
+       CC:::::::::::::::CS:::::SSSSSS::::::SS:::::SSSSSS::::::S
+      C:::::CCCCCCCC::::CS:::::S     SSSSSSSS:::::S     SSSSSSS
+     C:::::C       CCCCCCS:::::S            S:::::S
+    C:::::C              S:::::S            S:::::S
+    C:::::C               S::::SSSS          S::::SSSS
+    C:::::C                SS::::::SSSSS      SS::::::SSSSS
+    C:::::C                  SSS::::::::SS      SSS::::::::SS
+    C:::::C                     SSSSSS::::S        SSSSSS::::S
+    C:::::C                          S:::::S            S:::::S
+     C:::::C       CCCCCC            S:::::S            S:::::S
+      C:::::CCCCCCCC::::CSSSSSSS     S:::::SSSSSSSS     S:::::S
+       CC:::::::::::::::CS::::::SSSSSS:::::SS::::::SSSSSS:::::S
+         CCC::::::::::::CS:::::::::::::::SS S:::::::::::::::SS
+            CCCCCCCCCCCCC SSSSSSSSSSSSSSS    SSSSSSSSSSSSSSS
+                            
+                            The CSS file
+
+  *** end ascii art ***
+
+  A lot of people get into months long javascript framework boondoggles for reasons they could have solved in 5 minutes fiddling with the humble CSS file. 
+
+  The penultimate best CSS framework is the one where every design meeting you, the HTML/CSS Engineer (paid more than any of the Javascript Jocks) are rolling your eyes at the cravat wearing designer and sarcastically holding up a sticky note that says: "What about the standards, bro?" 
+
+  But the absolute best HTML/CSS Framework is the one where the designers are writing the CSS and HTML. Drop photoshop, drop whatever flavor of the week closed-source Mac only garbage you've been sending me that is just bad SVG and write some CSS. Design is about application of material facts (and yes, HTML/CSS is a material fact on screen in browser), so start applying the materials. 
+
+  As of Wed 13 Feb 2019 09:42:18 AM PST I do not have the essay done, but I am working on something called on.html, on.css and on.js that will hopefully be helpful
+
+  A lot of people think CSS folk aren't Engineers, or that Designers can't become good engineers but I know better. A lot of you designers and CSS pushers are already better engineers than the Javascript Jocks around you. I know. I see you. Here's where you wow them. 
+
+  Lindsey
+*/
+
+/* 
+  I like importing the font here, though it slows down page loading, because it's simple and it's 2019 and not an issue.
+*/
+
+/* 
+  Set the basic variables.If you can't adjust it here think VERY carefully to make sure everything stays simple and sane. Only YOU can prevent CSS Rats Nests.  
+*/
+:root {
+  --bg-color: #000;
+  --fg-color: #fff;
+  --dark-color: #444;
+  --mid-color: #999;
+  --middle-tone-color: #aaa;
+  --input-fg-color: #fff;
+  --element-bg-color: transparent;
+  --link-color: #fff;
+  --font-main: 'Roboto Mono', monospace;
+  --font-header: 'Roboto Mono', monospace;
+  --font-display: 'Roboto Mono', monospace;;
+  --font-size: 10pt;
+  --small-font-size: 9pt;
+}
+
+/* 
+  Basic color and styling tags
+*/
+body {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  font-family: var(--font-main);
+  scrollbar-color: var(--dark-color) var(--mid-color);
+  padding: 0;
+  margin: 0;
+}
+
+#drawing {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20,20,20,1);
+  z-index: -1;
+}
+
+a {
+  color: var(--link-color);
+  margin: 0;
+  padding: 0;  
+}
+
+p {
+  color: var(--fg-color);
+}
+
+ul {}
+
+li {
+  list-style: none;
+}
+
+pre {
+  color: #00ff00;
+}
+
+form {
+  max-width: 640pt;
+  border: 1px solid var(--fg-color);
+}
+
+/* 
+  I am assuming every input is contained in a label element.
+
+  As of Fri 15 Feb 2019 08:16:37 AM PST I am figuring out a form input
+  web component. I plan on building a boilerplate code for web components, it will be my first expiriment. 
+*/
+
+label {
+  font-size: var(--small-font-size);
+  border-bottom: 1px solid var(--middle-tone-color);
+  color: var(--middle-tone-color);
+  display: block;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  resize: vertical;
+  padding: 3pt;
+  height: 6em;
+}
+
+/* 
+  Style the children of labels. 
+*/
+label > * {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 3em 1em;
+  position: absolute;
+  left: 0pt;
+  top: 0pt;
+  border: none;
+  font-size: var(--font-size);
+  font-family: var(--font-main);
+  color: var(--fg-color);
+  background-color: var(--element-bg-color);
+  resize: none;
+}
+
+label.textarea {
+  height: 15em;
+}
+
+label.buttons {
+  height: 5em;
+}
+
+label h1 {
+  font-size: 20pt;
+  color: var(--middle-tone-color);
+  padding: 0.75em;
+  margin: 0;
+}
+
+label input {
+  position: absolute;
+  left: 0pt;
+  top: 0pt;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+input[type="color"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  left: 0px;
+  padding: 0;
+  margin: 0;
+  z-index: -1;
+  top: 0px;
+}
+
+main {
+  width: calc(100% - 10pt);
+  height: calc(100% - 50pt);
+  padding: 0;
+  margin-top: 20pt;
+  position: absolute;
+  overflow: hidden;
+  left: 50%;
+  top : 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+}
+
+section {
+  display: inline-block;
+}
+
+section > * {
+  margin-top: 8pt;
+}
+
+details summary {
+  padding: 4pt 0 4pt 24pt;
+  font-size: 48pt;
+  cursor: pointer;
+}
+
+dialog {
+  position: absolute;
+  top: -4000px;
+  background-color: rgba(0,0,0,0.6);
+  border: 1px solid var(--mid-color);
+  padding: 0
+  color: var(--fg-color);
+}
+
+dialog open {
+  top: 50%;
+}
+
+dialog header {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: inline-block;
+  border: none;
+  color: var(--fg-color);
+}
+
+h1, h2, h3, h4 {
+  color: var(--mid-color);
+  padding: 3pt;
+  font-size: 9pt;
+  font-weight: normal;
+  float: left;
+  margin: 0;
+}
+
+dialog .close-button {
+  float: right;
+  border: none;
+}
+
+progress {
+  background-color: var(--dark-color);
+  border-radius: 0px;
+  border: none;
+  padding: 3pt;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--middle-tone-color);
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--middle-tone-color);
+}
+
+input {
+  font-size: var(--font-size);
+  font-family: var(--font-main);
+  color: var(--fg-color);
+}
+
+textarea {
+
+}
+
+input[type="number"] {
+  color: var(--fg-color);
+  background-color: var(--element-bg-color);
+  padding: 1em;
+}
+
+input[type="file"]{
+  cursor: pointer;
+
+}
+
+.file-upload {
+  cursor: pointer;
+}
+
+input[type="button"], input[type="reset"], input[type="submit"], button {
+  border: 1px solid var(--middle-tone-color);
+  position: relative;
+  width: auto;
+  background-color: var(--element-bg-color);
+  color: var(--fg-color);
+  padding: 0em 2em;
+  cursor: pointer;
+  display: inline-block;
+}
+
+
+input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
+  background-color: var(--dark-color);
+  color: var(--mid-color);
+}
+
+input[type="submit"]:active, input[type="reset"]:active, button:active {
+  background-color: var(--fg-color);
+  color: var(--bg-color);
+}
+
+input[type="checkbox"] {
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  -o-appearance:none;
+  background-color: rgba(0,0,0,0.5);
+}
+
+input[type="checkbox"]:hover {
+  background-color: grey;
+}
+
+input[type="checkbox"]:checked {
+  background-color: white;
+}
+
+
+
+.small-button {
+  padding: 0 4pt;
+  padding-bottom: 2pt;
+  height: auto;
+  width: auto;
+  margin: 0;
+}
+
+
+.left-menu-tag {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  min-width: 2cm;
+  min-height: 2cm;
+  border: 1px solid white;
+  transition: left 0.1s linear;
+  left: 0pt;
+}
+
+.left-menu-tag:checked {
+  left: 240pt;
+}
+
+.left-menu-tag:active {
+  border: 1px solid red;
+}
+
+form.left-menu-form {
+  position: absolute;
+  width: 240pt;
+  left: -240pt;
+  transition: left 0.1s linear;
+}
+
+.left-menu-tag:checked ~ form.left-menu-form {
+  position: absolute;
+  left: 0pt;
+}
+
+
+
+.right-menu-tag {
+  position: absolute;
+  width: 20pt;
+  height: 20pt;
+  border: 1px solid white;
+  transition: right 0.1s linear;
+  right: 0pt;
+}
+
+.right-menu-tag:checked {
+  right: 240pt;
+}
+
+.right-menu-tag:active {
+  border: 1px solid red;
+}
+
+form.right-menu-form {
+  position: absolute;
+  width: 240pt;
+  right: -240pt;
+  transition: right 0.1s linear;
+}
+
+.right-menu-tag:checked ~ form.right-menu-form {
+  position: absolute;
+  right: 0pt;
+}
+
+
+header {
+  grid-area: head;
+
+  position: absolute;
+  overflow: hidden;
+  left: 50%;
+  top : 20pt;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+  width: calc(100% - 10pt);
+  height: 24pt;
+}
+
+nav {
+  font-size: var(--small-font-size);
+  padding: 0;
+  margin: 0 0 -2px 0;
+}
+
+nav h1 {
+  font-size: var(--small-font-size);
+  padding: 0;
+  margin: 1pt 3pt;
+}
+
+nav ul {
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+}
+
+nav li {
+  height: 100%;
+  padding: 3pt;
+  float: left;
+  margin-right: 3pt;
+  padding: 5pt 6pt 5pt 6pt;
+  display: inline-block;
+  border-left: 1px solid #666;
+  list-style: none;
+}
+
+nav li a {
+  display: block;
+}
+
+nav li a:hover {
+  background-color: rgba(200,200,200,0.5);
+}
+
+nav li a:active {
+  background-color: rgba(255,255,255,0.5);
+}
+
+nav li a {
+  text-decoration: none;
+}
+
+
+figure  {
+  border: 1px solid var(--fg-color);
+
+}
+
+.logo {
+  float: left;
+  padding: 3pt;
+}
+
+.float-right {
+  float: right;
+  display: inline-block;
+}
+
+.notification {
+  color: green;
+}
+
+.warning {
+  color: yellow;
+}
+
+.error {
+  color: red;
+}
+
+.card {
+  width: 16em;
+}

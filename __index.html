@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- 
+
+        *** BEGIN ASCII ART ***
+    ________    _     _    ________
+   |________|  | |   | |  |________|
+    ________   | |___| |   ________
+   |________|   |_   _|   |________|
+    ________      | |      ________
+   |________|     |_|     |________|
+
+        *** END ASCII ART *** 
+
+    EYE is my personal Camera App. It is designed to take an image and flip it.
+
+  -->
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>䷀䷡䷀</title>
+
+</head>
+<body>
+      <header id="header" class="">
+        <!--
+          *** begin ascii art ***
+              _   _____ _    __
+             / | / /   | |  / /
+            /  |/ / /| | | / /
+           / /|  / ___ | |/ /
+          /_/ |_/_/  |_|___/
+
+          *** end ascii art ***
+
+          The Navigation menu.
+        -->
+        <nav>
+          <h1 id="logo" class="logo">䷀䷡䷀</h1>
+          <ul class="float-right">
+            <li id="notification" class="warning">Loading...</li>
+          </ul>
+        </nav>
+
+        <script type="text/javascript">
+
+          const navMenu = {
+            updateNotification: function (message, level = 'notification'){
+              $('#notification').text(message).removeClass().addClass(level)
+            }
+
+            /*
+              tk: general menu mangement. See prototype _hans_graveyard/hans-js-feb-1-2019-command-console-prototype
+              addMenuItem: function (menuitem){
+              }
+              removeMenuItem: function(id){
+              }
+              logItem: function(message){
+                // add an item to the page log
+              }
+            */
+
+          }
+
+          navMenu.updateNotification('Navigator Loaded')
+        </script>
+      </header>
+  <main id="main">
+    <!-- BEGIN CAMERA -->
+    <style type="text/css" media="screen">
+      .eye-canvas {
+  
+        min-width: 100%;
+        height: auto;
+        min-height: 100%;
+        width: auto;
+        opacity: 0.5;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .eye-scratch-canvas {
+        display: none;
+      }
+
+      .eye-video {
+        display: none;
+      }
+
+      .eye-control-panel {
+        position: absolute;
+        z-index: 1000;
+        left: 20pt;
+        top: 20pt;
+      }
+
+      .eye-play-pause-sprite.play {
+         transform: translate(-640.44494px,-268.90925px);
+      }
+
+      .eye-play-pause-sprite {
+         transform: translate(-490.44494px,-268.90925px);
+      }
+
+      .play-pause {
+        position: absolute;
+        width: 50vw;
+        height: 50vh;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.5;
+      }
+    </style>
+    <div>
+      <video id="eye-video" class="eye-video" width="1920" height="1080"></video>
+      <canvas id="eye-canvas" class="eye-canvas" width="1080" height="1080"></canvas>
+      <canvas id="eye-scratch-canvas" class="eye-scratch-canvas" width="1080" height="1080"></canvas>
+
+    <svg id="eye-play-pause-svg" class="play-pause" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 52.92 52.916667" height="200" width="200">
+      <g id="eye-play-pause-sprite" class="eye-play-pause-sprite play">
+        <path id="path1422" d="m 494.31393,271.65359 h 21.168 v 47.628 h -21.13831 l -0.0297,-47.628" style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.20001259;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <path id="path1422-6" d="m 518.32796,271.65359 h 21.168 v 47.628 h -21.13831 l -0.0297,-47.628" style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.20001259;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <path id="path1439" d="m 647.33394,319.18158 v -47.628 l 44.982,23.814 z" style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.20001259;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      </g>
+    </svg>
+
+    <div id="left-menu" class="left-menu">
+      <input type="checkbox" name="open" class="left-menu-tag" />
+
+      <form id="left-menu-form" class="left-menu-form">
+        <label class="buttons">
+          <button id="eye-toggle-flipped" style="width:100%">Flip</button>
+        </label>
+        <label>
+          <button id="eye-toggle-filters"  style="width:100%">Filters</button>
+        </label>      
+        <label>
+          <button id="eye-toggle-fullscreen"  style="width:100%">Full Screen</button>
+        </label>      
+        <label>
+          Brightness
+          <input type="range" min="0" max="400" class="slider" id="eye-brightness-channel" >
+        </label>
+        <label>
+          Contrast
+          <input type="range" min="0" max="400"  class="slider" id="eye-contrast-channel" >
+        </label>
+        <label>
+          Saturation
+          <input type="range" min="0" max="200"  class="slider" id="eye-saturation-channel" >
+        </label>
+        <label>
+          Hue Rotate (degrees)
+          <input type="range" min="0" max="360" value="0" class="slider" id="eye-hue-rotate-channel" >
+        </label>
+        <label>
+          Inversion
+          <input type="range" min="0" max="100" value="0" class="slider" id="eye-inversion-channel" >
+        </label>
+
+      </form>
+
+      </div>
+
+      <script type="text/javascript">
+        // EYE CONTROL
+
+        (function(){
+          const EYE_CONTROL = window.EYE_CONTROL = {
+            pollingRate: 100,
+            filters: localStorage.getItem('EYE-FILTERS') ? JSON.parse(localStorage.getItem('EYE-FILTERS')) : false,
+            flipped: localStorage.getItem('EYE-FLIPPED') ? JSON.parse(localStorage.getItem('EYE-FLIPPED')) : true,
+            inversion: localStorage.getItem('EYE-INVERSION') ? JSON.parse(localStorage.getItem('EYE-INVERSION')) : 0,
+            brightness: localStorage.getItem('EYE-BRIGHTNESS') ? JSON.parse(localStorage.getItem('EYE-BRIGHTNESS')) : 0.5,
+            contrast: localStorage.getItem('EYE-CONTRAST') ? JSON.parse(localStorage.getItem('EYE-CONTRAST')) : 1,
+            saturation: localStorage.getItem('EYE-SATURATION') ? JSON.parse(localStorage.getItem('EYE-SATURATION')) : 4,
+            hueRotation: localStorage.getItem('EYE-HUE-ROTATION') ? JSON.parse(localStorage.getItem('EYE-HUE-ROTATION')) : 0,
+            filterString: function(){
+              return `contrast(${this.contrast}%) invert(${this.inversion}%) brightness(${this.brightness}%) saturate(${this.saturation}%) hue-rotate(${this.hueRotation}deg)`
+            }
+          }
+
+          // @TODO refactor this into form code to allow for default values
+          // for every form
+          $('#eye-toggle-flipped').on('click', function(e){
+            e.preventDefault()
+            EYE_CONTROL.flipped = !EYE_CONTROL.flipped
+            localStorage.setItem('EYE-FLIPPED', JSON.stringify(EYE_CONTROL.flipped))
+          })
+
+          $('#eye-toggle-filters').on('click', function(e){
+            e.preventDefault()
+            EYE_CONTROL.filters = !EYE_CONTROL.filters
+            localStorage.setItem('EYE-FILTERS', JSON.stringify(EYE_CONTROL.filters))
+          })
+
+          $('#eye-toggle-fullscreen').on('click', function(e){
+            e.preventDefault()
+            toggleFullScreen()
+          })
+
+          function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+              if (document.exitFullscreen) {
+                document.exitFullscreen(); 
+              }
+            }
+          }
+
+          $('#eye-brightness-channel').val(EYE_CONTROL.brightness)
+          .on('input change', function(e){
+            EYE_CONTROL.brightness = e.target.value
+          }).on('change', function(e){
+            EYE_CONTROL.brightness = e.target.value
+            localStorage.setItem('EYE-BRIGHTNESS', JSON.stringify(EYE_CONTROL.brightness))
+          })
+
+          $('#eye-inversion-channel').val(EYE_CONTROL.inversion)
+          .on('input change', function(e){
+            EYE_CONTROL.inversion = e.target.value
+          })
+          .on('change', function(e){
+            EYE_CONTROL.inversion = e.target.value
+            localStorage.setItem('EYE-INVERSION', JSON.stringify(EYE_CONTROL.inversion))
+          })
+
+
+          $('#eye-contrast-channel').val(EYE_CONTROL.contrast)
+          .on('input change', function(e){
+            EYE_CONTROL.contrast = e.target.value
+          })
+          .on('change', function(e){
+            EYE_CONTROL.contrast = e.target.value
+            localStorage.setItem('EYE-CONTRAST', JSON.stringify(EYE_CONTROL.contrast))            
+          })
+
+          $('#eye-saturation-channel').val(EYE_CONTROL.saturation).on('input change', function(e){
+            EYE_CONTROL.saturation = e.target.value 
+          }).on('change', function(e){
+            EYE_CONTROL.saturation = e.target.value
+            localStorage.setItem('EYE-SATURATION', JSON.stringify(EYE_CONTROL.saturation))
+          })
+
+          $('#eye-hue-rotate-channel').val(EYE_CONTROL.hueRotation).on('input change', function(e){
+            EYE_CONTROL.hueRotation = e.target.value
+          }).on('change', function(e){
+            EYE_CONTROL.hueRotation = e.target.value
+            localStorage.setItem('EYE-HUE-ROTATION', JSON.stringify(EYE_CONTROL.hueRotation))
+                      
+          })
+
+        })()
+      </script>
+
+      <script type="text/javascript" charset="utf-8">
+        (function(){
+          navMenu.updateNotification('BOOTING ䷀䷡䷀')
+
+          let container = null
+          let flipped = true
+          let width = window.innerWidth
+          let height = window.innerHeight
+
+          let videoSize = width > height ? width : height;
+
+          const video = document.getElementById('eye-video')
+          const canvas = document.getElementById('eye-canvas')
+          const scratchCanvas = document.getElementById('eye-scratch-canvas')
+          const scratch = scratchCanvas.getContext('2d')
+
+
+          const context = canvas.getContext('2d')
+          window.canvasContext = context
+          if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+            navMenu.updateNotification('Media Devices Present')
+
+            navigator.mediaDevices.getUserMedia({video: {
+              facingMode: 'environment',
+              width: videoSize,
+              height: videoSize
+            }}).then(function(stream){
+              video.srcObject = stream
+              togglePolling()
+
+            })
+          } else {
+            navMenu.updateNotification('CANNOT LOAD CAMERA')
+          }
+
+          let timer = null
+          let drawing = false
+          let polling = false
+          let svgAnimating = false
+
+          $('#eye-canvas').on('click', togglePolling)
+
+          function togglePolling(){
+
+            if(!svgAnimating){
+              svgAnimating = true
+              $('#eye-play-pause-svg').fadeIn('fast').delay(500).fadeOut('slow', function(){
+                svgAnimating = false
+              })
+            }
+
+            polling = !polling
+            if( !polling ) {
+              $('#eye-play-pause-sprite').removeClass('play')              
+              video.pause()
+            } else {
+              video.play()
+              $('#eye-play-pause-sprite').addClass('play')
+              update()
+            }
+          }
+
+          function update(){
+            if(drawing) return
+            // All function
+            drawing = true 
+            renderToCanvas(video).then(function(){
+              if(polling){
+                setTimeout(update, EYE_CONTROL.pollingRate)
+              }
+            })
+            drawing = false
+          }
+         
+
+
+          function renderToCanvas(img){
+            return new Promise(function(resolve, reject){
+              context.save()
+              context.putImageData(processImage(img), 0, 0)
+              context.restore()
+              resolve(true)
+            })
+          }
+
+          function processImage(image){
+              
+              scratch.save()
+              if (EYE_CONTROL.flipped) {
+                scratch.translate(scratchCanvas.width, 0)
+                scratch.scale(-1, 1)
+              }
+              if(EYE_CONTROL.filters) scratch.filter = EYE_CONTROL.filterString()
+
+              scratch.drawImage(image,0,0, scratchCanvas.width, scratchCanvas.height)
+
+              scratch.restore()            
+
+              return scratch.getImageData(0,0,image.width, image.height)
+          }
+
+
+        })()
+      </script>
+
+    </div>
+    <!-- END CAMERA -->
+  </main>
+</body>
+</html>

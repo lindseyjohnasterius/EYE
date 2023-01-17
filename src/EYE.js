@@ -20,6 +20,7 @@ class EYE extends HTMLElement {
     const menu = document.createElement('nav');
 
     const connect = document.createElement('connect-button');
+
     menu.appendChild(connect);
     connect.addEventListener('connect', ()=> {
       this.initVideo();
@@ -31,6 +32,7 @@ class EYE extends HTMLElement {
     })
     menu.appendChild(available_devices);
     this.appendChild(menu);
+    this.appendChild(document.createElement('eye-grid'));
 
   }
 
